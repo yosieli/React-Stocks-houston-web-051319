@@ -25,25 +25,25 @@ class MainContainer extends Component {
   }
 
   buyStock = id => {
-    console.log('changing from stock to port', id);
-    let test = this.state.stocks.filter(stock => stock.id === id)
-    let portTest = this.state.portfolio.filter(stock => stock.id === id)
-    // console.log(test)
-    if(test.length === 1){
-      this.setState({
-        stocks: this.state.stocks.filter(stock => stock.id !== id),
-        portfolio: [...this.state.portfolio, ...test]
-      })
-    }
-    else{
-      this.setState({
-        stocks: [...this.state.stocks, ...portTest],
-        portfolio: this.state.portfolio.filter(stock => stock.id !== id)
-      })
-    }
+      console.log('changing from stock to port', id);
+      let test = this.state.stocks.filter(stock => stock.id === id)
+      let portTest = this.state.portfolio.filter(stock => stock.id === id)
+      // console.log(test)
+      if(test.length === 1){
+        this.setState({
+          stocks: this.state.stocks.filter(stock => stock.id !== id),
+          portfolio: [...this.state.portfolio, ...test]
+        })
+      }
+      else{
+        this.setState({
+          stocks: [...this.state.stocks, ...portTest],
+          portfolio: this.state.portfolio.filter(stock => stock.id !== id)
+        })
+      }
 
     
-    }
+  }
     
     changeSearch =(searchTerm) =>{
       this.setState({
@@ -55,6 +55,27 @@ class MainContainer extends Component {
   
 
   render() {
+    let stocks = this.state.stocks
+    if(this.state.searchTerm == "Price"){
+      stocks = stocks.sort(( stock1, stock2) => {
+        if(stock1.price < stock2.price){
+          return 1
+          } else {
+          return -1
+          }
+      })
+    } else if(this.state.searchTerm == "Alphabetically"){
+      stocks=stocks.sort((stock1,stock2) => {
+        if(stock1.name > stock2.name){
+          return 1
+        }else{
+          return -1
+        }
+        
+      })
+      }
+
+      
     return (
       <div>
         <SearchBar searchTerm={this.state.searchTerm} onSerach={this.changeSearch}/>
